@@ -1,57 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>整蛊页面</title>
+    <title>致敬所有单身同胞</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #ff7eb9, #ff65a3);
+            font-family: 'Arial', sans-serif;
+            transition: all 0.5s ease;
+            overflow: hidden;
         }
-        .content {
+
+        .container {
             text-align: center;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            z-index: 10;
         }
-        h1 {
-            color: #333;
+
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background: red;
+            transform: rotate(-45deg);
+            animation: jump 0.5s infinite alternate;
+            cursor: pointer;
+            margin: 0 auto;
         }
-        .button {
-            padding: 10px 20px;
-            background-color: #ff6347;
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes jump {
+            0% { transform: rotate(-45deg) translateY(0); }
+            100% { transform: rotate(-45deg) translateY(-20px); }
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 24px;
             color: white;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .love-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: white;
+            color: red;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
+            transition: background-color 0.3s;
         }
-        .button:hover {
-            background-color: #ff4500;
+
+        .love-button:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 16px;
+            color: white;
+        }
+
+        .click-counter {
+            margin-top: 10px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* 整蛊效果样式 */
+        .scary-face {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" font-family="Arial" font-size="10" fill="red" text-anchor="middle" dominant-baseline="middle">👻 惊不惊喜！意不意外！ 👻</text></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            z-index: 100;
+            display: none;
+        }
+
+        .blood {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,40 C40,20 60,20 70,40 C80,60 65,80 50,75 C35,80 20,60 30,40 Z" fill="darkred" opacity="0.7"/></svg>') repeat;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0;
+        }
+
+        .flicker {
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .shake {
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1>点击下方按钮来整蛊朋友！</h1>
-        <button class="button" onclick="triggerPrank()">点我git！！！！！！！！</button>
+    <div class="container">
+        <div class="heart" id="heart"></div>
+        <div class="message" id="message">我爱你❤️</div>
+        <button class="love-button" id="loveButton">点击我</button>
+        <div class="click-counter" id="clickCounter">已点击: 0/10 次</div>
+        <div class="footer">
+            <p>给你最甜蜜的告白~</p>
+        </div>
     </div>
 
+    <!-- 整蛊元素 -->
+    <div class="scary-face" id="scaryFace"></div>
+    <div class="blood" id="bloodEffect"></div>
+
     <script>
+        let clickCount = 0;
+        const heart = document.getElementById('heart');
+        const message = document.getElementById('message');
+        const loveButton = document.getElementById('loveButton');
+        const clickCounter = document.getElementById('clickCounter');
+        const scaryFace = document.getElementById('scaryFace');
+        const bloodEffect = document.getElementById('bloodEffect');
+        const body = document.body;
+
+        // 心形点击事件
+        heart.addEventListener('click', function() {
+            clickCount++;
+            updateClickCounter();
+            
+            if (clickCount < 5) {
+                alert('光棍节没人爱你想什么呢！(继续点有惊喜)');
+            } else if (clickCount < 10) {
+                alert(`已经点了 ${clickCount} 次了，还差 ${10 - clickCount} 次就有惊喜！`);
+                // 逐渐增加效果
+                if (clickCount >= 7) {
+                    body.classList.add('shake');
+                }
+            } else if (clickCount === 10) {
+                triggerPrank();
+            } else if (clickCount > 10) {
+                alert('惊喜已经来过啦！还想再来一次？');
+            }
+        });
+
+        // 按钮点击事件
+        loveButton.addEventListener('click', function() {
+            if (clickCount < 10) {
+                alert('惊喜就是什么他妈的叫惊喜！（先点10次心形）');
+            } else {
+                alert('不是已经给过你惊喜了吗！');
+            }
+        });
+
+        function updateClickCounter() {
+            clickCounter.textContent = `已点击: ${clickCount}/10 次`;
+            
+            // 根据点击次数改变颜色
+            if (clickCount >= 7) {
+                clickCounter.style.color = '#ffeb3b';
+                clickCounter.style.fontWeight = 'bold';
+            }
+        }
+
         function triggerPrank() {
-            alert("你被整蛊！😂");
-            // 你可以在这里添加其他搞笑的效果，比如：
-            // - 播放搞笑音频
-            // - 跳转到其他页面
-          
+            // 播放音效（如果需要）
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQ');
+                audio.play();
+            } catch (e) {
+                // 忽略音效错误
+            }
+
+            // 改变背景颜色
+            body.style.background = 'linear-gradient(135deg, #000000, #333333)';
+            body.classList.add('flicker');
+            
+            // 显示整蛊元素
+            scaryFace.style.display = 'block';
+            bloodEffect.style.opacity = '0.7';
+            
+            // 改变文字内容
+            message.innerHTML = '惊不惊喜！意不意外！';
+            message.style.color = 'red';
+            message.classList.add('shake');
+            
+            // 改变按钮文字
+            loveButton.textContent = '吓死我了！';
+            loveButton.style.background = 'red';
+            loveButton.style.color = 'white';
+            
+            // 10秒后停止闪烁
+            setTimeout(() => {
+                body.classList.remove('flicker');
+            }, 10000);
+            
+            alert('🎉 恭喜你解锁了终极惊喜！单身快乐！ --Mr. Wei致敬 🎉');
         }
     </script>
 </body>
