@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>赛博朋克AI助手 - 极致炫酷版</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>赛博朋克AI助手 - deepseek版</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,14 +13,14 @@
             --neon-green: #00ff00;
             --neon-yellow: #ffff00;
             --dark-bg: #0a0a0a;
-            --dark-surface: rgba(20, 20, 30, 0.85);
-            --glow-intensity: 1;
+            --transparent-surface: rgba(20, 20, 30, 0.85);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body, html {
@@ -32,6 +32,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: manipulation;
         }
         
         /* 扫描线效果 */
@@ -44,13 +45,13 @@
             background: linear-gradient(
                 to bottom,
                 rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0.06) 50%,
+                rgba(255,255,255,0.03) 50%,
                 rgba(255,255,255,0) 100%
             );
-            background-size: 100% 4px;
-            z-index: 100;
+            background-size: 100% 6px;
+            z-index: 5;
             pointer-events: none;
-            animation: scanline 8s linear infinite;
+            animation: scanline 10s linear infinite;
         }
         
         @keyframes scanline {
@@ -68,9 +69,9 @@
             background-image: 
                 linear-gradient(rgba(10, 255, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(10, 255, 255, 0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -2;
-            opacity: 0.3;
+            background-size: 25px 25px;
+            z-index: 1;
+            opacity: 0.4;
         }
         
         /* 霓虹光晕效果 */
@@ -78,48 +79,49 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 500px;
-            height: 500px;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(
                 circle,
-                rgba(15, 240, 252, 0.3) 0%,
-                rgba(255, 0, 255, 0.2) 30%,
+                rgba(15, 240, 252, 0.2) 0%,
+                rgba(255, 0, 255, 0.15) 30%,
                 transparent 70%
             );
             transform: translate(-50%, -50%);
-            z-index: -1;
-            filter: blur(40px);
-            animation: pulse-glow 6s ease-in-out infinite alternate;
+            z-index: 2;
+            filter: blur(30px);
+            animation: pulse-glow 8s ease-in-out infinite alternate;
         }
         
         @keyframes pulse-glow {
-            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
-            100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.2); }
+            0% { opacity: 0.2; transform: translate(-50%, -50%) scale(0.9); }
+            100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.1); }
         }
         
         /* 主容器 */
         .cyber-container {
-            width: 90%;
-            max-width: 800px;
-            height: 85vh;
-            background: var(--dark-surface);
+            width: 95%;
+            height: 95vh;
+            max-height: 95vh;
+            background: var(--transparent-surface);
             border-radius: 16px;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
             box-shadow: 
-                0 0 20px rgba(15, 240, 252, 0.5),
-                0 0 40px rgba(255, 0, 255, 0.3),
-                inset 0 0 20px rgba(15, 240, 252, 0.1);
+                0 0 15px rgba(15, 240, 252, 0.4),
+                0 0 30px rgba(255, 0, 255, 0.2),
+                inset 0 0 15px rgba(15, 240, 252, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(15, 240, 252, 0.3);
-            animation: container-appear 1.5s ease-out;
+            z-index: 20; /* 聊天层在特效层下面 */
+            animation: container-appear 1s ease-out;
         }
         
         @keyframes container-appear {
-            0% { opacity: 0; transform: scale(0.8) translateY(50px); }
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
         
@@ -131,12 +133,13 @@
             top: 0;
             left: 0;
             pointer-events: none;
+            z-index: 25;
         }
         
         .corner {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             border: 2px solid var(--neon-blue);
         }
         
@@ -173,10 +176,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
             border-bottom: 1px solid rgba(15, 240, 252, 0.3);
             position: relative;
+            z-index: 30;
         }
         
         .cyber-header::after {
@@ -201,35 +205,35 @@
         
         .cyber-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             font-weight: 900;
             background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(15, 240, 252, 0.5);
-            letter-spacing: 2px;
+            text-shadow: 0 0 8px rgba(15, 240, 252, 0.5);
+            letter-spacing: 1px;
         }
         
         .status-indicator {
             display: flex;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--neon-green);
         }
         
         .pulse-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: var(--neon-green);
             border-radius: 50%;
-            margin-right: 8px;
+            margin-right: 6px;
             animation: pulse 2s infinite;
-            box-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
         }
         
         @keyframes pulse {
             0% { opacity: 0.4; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+            50% { opacity: 1; transform: scale(1.1); }
             100% { opacity: 0.4; transform: scale(0.8); }
         }
         
@@ -237,37 +241,32 @@
         .cyber-messages {
             flex-grow: 1;
             overflow-y: auto;
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 10px;
+            margin-bottom: 15px;
             background: rgba(5, 5, 15, 0.4);
             border-radius: 12px;
             border: 1px solid rgba(15, 240, 252, 0.2);
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-            scrollbar-width: thin;
-            scrollbar-color: var(--neon-blue) transparent;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            z-index: 30;
+            backdrop-filter: blur(5px);
         }
         
         .cyber-messages::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .cyber-messages::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .cyber-messages::-webkit-scrollbar-thumb {
-            background: var(--neon-blue);
-            border-radius: 3px;
+            display: none;
         }
         
         .message {
             display: flex;
-            margin-bottom: 20px;
-            animation: message-appear 0.4s ease-out;
+            margin-bottom: 15px;
+            animation: message-appear 0.3s ease-out;
+            position: relative;
+            z-index: 35;
         }
         
         @keyframes message-appear {
-            0% { opacity: 0; transform: translateY(10px); }
+            0% { opacity: 0; transform: translateY(8px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         
@@ -280,45 +279,51 @@
         }
         
         .message-avatar {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 12px;
+            margin: 0 10px;
             flex-shrink: 0;
-            font-size: 1.2rem;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 40;
         }
         
         .bot .message-avatar {
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-            box-shadow: 0 0 10px var(--neon-blue);
+            box-shadow: 0 0 8px var(--neon-blue);
         }
         
         .user .message-avatar {
             background: linear-gradient(135deg, var(--neon-pink), var(--neon-yellow));
-            box-shadow: 0 0 10px var(--neon-pink);
+            box-shadow: 0 0 8px var(--neon-pink);
         }
         
         .message-content {
-            max-width: 70%;
-            padding: 12px 18px;
-            border-radius: 18px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 16px;
             position: relative;
             word-wrap: break-word;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 40;
         }
         
         .bot .message-content {
-            background: rgba(15, 240, 252, 0.15);
-            border: 1px solid rgba(15, 240, 252, 0.4);
+            background: rgba(15, 240, 252, 0.25);
+            border: 1px solid rgba(15, 240, 252, 0.5);
             color: var(--neon-blue);
             border-bottom-left-radius: 4px;
         }
         
         .user .message-content {
-            background: rgba(255, 0, 255, 0.15);
-            border: 1px solid rgba(255, 0, 255, 0.4);
+            background: rgba(255, 0, 255, 0.25);
+            border: 1px solid rgba(255, 0, 255, 0.5);
             color: var(--neon-pink);
             border-bottom-right-radius: 4px;
         }
@@ -327,36 +332,38 @@
             content: '';
             position: absolute;
             bottom: -1px;
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background: inherit;
             border: inherit;
             border-top: none;
         }
         
         .bot .message-content::before {
-            left: -8px;
+            left: -6px;
             border-right: none;
-            border-bottom-left-radius: 10px;
+            border-bottom-left-radius: 8px;
             clip-path: polygon(0 0, 100% 0, 100% 100%);
         }
         
         .user .message-content::before {
-            right: -8px;
+            right: -6px;
             border-left: none;
-            border-bottom-right-radius: 10px;
+            border-bottom-right-radius: 8px;
             clip-path: polygon(0 0, 100% 0, 0 100%);
         }
         
         .message-text {
-            font-size: 1rem;
+            font-size: 0.9rem;
             line-height: 1.4;
+            position: relative;
+            z-index: 45;
         }
         
         .message-time {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             opacity: 0.6;
-            margin-top: 5px;
+            margin-top: 4px;
             text-align: right;
         }
         
@@ -364,28 +371,33 @@
         .cyber-input-area {
             display: flex;
             align-items: center;
-            background: rgba(10, 10, 20, 0.7);
-            border-radius: 30px;
-            padding: 5px;
+            background: rgba(10, 10, 20, 0.6);
+            border-radius: 25px;
+            padding: 4px;
             border: 1px solid rgba(15, 240, 252, 0.3);
-            box-shadow: 0 0 10px rgba(15, 240, 252, 0.2);
+            box-shadow: 0 0 8px rgba(15, 240, 252, 0.2);
             transition: all 0.3s ease;
+            z-index: 30;
+            backdrop-filter: blur(5px);
+            position: relative;
         }
         
         .cyber-input-area:focus-within {
             border-color: var(--neon-blue);
-            box-shadow: 0 0 15px var(--neon-blue);
+            box-shadow: 0 0 12px var(--neon-blue);
         }
         
         .cyber-input {
             flex-grow: 1;
             background: transparent;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 15px;
             color: white;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-family: 'Rajdhani', sans-serif;
             outline: none;
+            position: relative;
+            z-index: 35;
         }
         
         .cyber-input::placeholder {
@@ -393,80 +405,262 @@
         }
         
         .send-button {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(15, 240, 252, 0.5);
-        }
-        
-        .send-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px var(--neon-blue);
+            box-shadow: 0 0 12px rgba(15, 240, 252, 0.5);
+            position: relative;
+            z-index: 35;
         }
         
         .send-button:active {
             transform: scale(0.95);
+            box-shadow: 0 0 15px var(--neon-blue);
         }
         
         /* 特效按钮区域 */
         .effects-panel {
             display: flex;
-            justify-content: center;
-            margin-top: 15px;
-            gap: 10px;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 8px;
+            z-index: 30;
+            position: relative;
         }
         
         .effect-btn {
-            padding: 8px 15px;
-            background: rgba(15, 240, 252, 0.1);
-            border: 1px solid rgba(15, 240, 252, 0.3);
+            flex: 1;
+            padding: 8px 5px;
+            background: rgba(15, 240, 252, 0.15);
+            border: 1px solid rgba(15, 240, 252, 0.4);
             color: var(--neon-blue);
-            border-radius: 20px;
+            border-radius: 16px;
             cursor: pointer;
             font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 35;
         }
         
-        .effect-btn:hover {
-            background: rgba(15, 240, 252, 0.2);
-            box-shadow: 0 0 10px var(--neon-blue);
+        .effect-btn:active {
+            background: rgba(15, 240, 252, 0.25);
+            box-shadow: 0 0 8px var(--neon-blue);
         }
         
-        /* 粒子容器 */
-        #particles-js {
+        /* 特效容器 - 放在聊天界面上面 */
+        .effects-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            pointer-events: none;
+            z-index: 50; /* 特效层在聊天层上面 */
+            overflow: hidden;
+        }
+        
+        /* 矩阵雨特效 */
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            text-shadow: 0 0 8px #0f0;
+            animation: matrix-fall linear infinite;
+            font-weight: bold;
+        }
+        
+        @keyframes matrix-fall {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+        
+        /* 星空特效 */
+        .stars-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px white, 0 0 12px var(--neon-blue);
+            animation: twinkle 1.5s infinite alternate;
+        }
+        
+        .shooting-star {
+            position: absolute;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, white, transparent);
+            box-shadow: 0 0 8px white;
+            animation: shoot 3s linear;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        @keyframes shoot {
+            0% { 
+                transform: translateX(-100px) translateY(0) rotate(45deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            100% { 
+                transform: translateX(500px) translateY(200px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+        
+        /* 脉冲特效 */
+        .pulse-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
+            animation: pulse-expand 2s ease-out;
+        }
+        
+        @keyframes pulse-expand {
+            0% { 
+                width: 10px; 
+                height: 10px; 
+                opacity: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            100% { 
+                width: 800px; 
+                height: 800px; 
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        /* 霓虹特效 */
+        .neon-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(15, 240, 252, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 0, 255, 0.3) 0%, transparent 50%);
+            animation: neon-pulse 1.5s infinite alternate;
+        }
+        
+        @keyframes neon-pulse {
+            0% { opacity: 0.4; filter: hue-rotate(0deg); }
+            100% { opacity: 0.8; filter: hue-rotate(90deg); }
+        }
+        
+        /* 特效通知 */
+        .effect-notification {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--neon-blue);
+            padding: 12px 24px;
+            border-radius: 20px;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            font-size: 1.1rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            pointer-events: none;
         }
         
         /* 响应式设计 */
-        @media (max-width: 768px) {
+        @media (max-width: 360px) {
             .cyber-container {
-                width: 95%;
-                height: 90vh;
-                padding: 15px;
+                width: 98%;
+                height: 98vh;
+                padding: 10px;
             }
             
             .cyber-title {
-                font-size: 1.8rem;
+                font-size: 1.3rem;
             }
             
             .message-content {
                 max-width: 85%;
+            }
+            
+            .effects-panel {
+                flex-wrap: wrap;
+            }
+            
+            .effect-btn {
+                flex: 0 0 48%;
+                margin-bottom: 5px;
+            }
+        }
+        
+        /* 横屏适配 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .cyber-container {
+                height: 98vh;
+            }
+            
+            .cyber-messages {
+                max-height: 60vh;
             }
         }
     </style>
@@ -476,7 +670,6 @@
     <div class="grid-bg"></div>
     <div class="glow-effect"></div>
     <div class="scanlines"></div>
-    <div id="particles-js"></div>
     
     <!-- 主聊天容器 -->
     <div class="cyber-container">
@@ -503,13 +696,12 @@
                 <div class="message-avatar">AI</div>
                 <div class="message-content">
                     <div class="message-text">
-                        🚀 欢迎来到赛博空间！我是您的AI助手，准备好体验极致炫酷的对话了吗？
+                        🚀 欢迎使用deepseek(卫焱楠特调)版赛博助手！
                         <br><br>
-                        💡 <strong>试试这些关键词触发特效：</strong>
-                        <br>• "霓虹" - 霓虹灯文字效果
-                        <br>• "矩阵" - 矩阵数字雨
-                        <br>• "脉冲" - 能量脉冲特效
-                        <br>• "星空" - 星空爆炸效果
+                        💡 <strong>特效现在覆盖在聊天界面上：</strong>
+                        <br>• 点击下方按钮体验
+                        <br>• 或输入关键词触发
+                        <br>• 特效会显示在聊天内容上方
                     </div>
                     <div class="message-time">刚刚</div>
                 </div>
@@ -520,7 +712,7 @@
         <div class="cyber-input-area">
             <input type="text" class="cyber-input" id="userInput" placeholder="💬 输入消息...">
             <button class="send-button" id="sendButton">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
                 </svg>
             </button>
@@ -528,74 +720,37 @@
         
         <!-- 特效按钮 -->
         <div class="effects-panel">
-            <button class="effect-btn" data-effect="neon">霓虹效果</button>
-            <button class="effect-btn" data-effect="matrix">矩阵雨</button>
-            <button class="effect-btn" data-effect="pulse">能量脉冲</button>
-            <button class="effect-btn" data-effect="stars">星空爆炸</button>
+            <button class="effect-btn" data-effect="neon">霓虹</button>
+            <button class="effect-btn" data-effect="matrix">矩阵</button>
+            <button class="effect-btn" data-effect="pulse">脉冲</button>
+            <button class="effect-btn" data-effect="stars">星空</button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-        // 初始化粒子背景
-        particlesJS('particles-js', {
-            particles: {
-                number: { 
-                    value: 80, 
-                    density: { 
-                        enable: true, 
-                        value_area: 800 
-                    } 
-                },
-                color: { 
-                    value: ["#0ff0fc", "#ff00ff", "#8a2be2"] 
-                },
-                shape: { 
-                    type: "circle" 
-                },
-                opacity: { 
-                    value: 0.5, 
-                    random: true 
-                },
-                size: { 
-                    value: 3, 
-                    random: true 
-                },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#0ff0fc",
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: "none",
-                    random: true,
-                    out_mode: "out"
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: "repulse"
-                    },
-                    onclick: {
-                        enable: true,
-                        mode: "push"
-                    }
-                }
-            }
-        });
+    <!-- 特效容器 - 放在聊天界面上面 -->
+    <div class="effects-container" id="effectsContainer">
+        <div class="matrix-rain" id="matrixRain"></div>
+        <div class="stars-effect" id="starsEffect"></div>
+        <div class="pulse-effect" id="pulseEffect"></div>
+        <div class="neon-effect" id="neonEffect"></div>
+    </div>
 
+    <script>
         // DOM元素
         const sendButton = document.getElementById('sendButton');
         const userInput = document.getElementById('userInput');
         const chatMessages = document.getElementById('chatMessages');
         const effectButtons = document.querySelectorAll('.effect-btn');
+        const effectsContainer = document.getElementById('effectsContainer');
+        
+        // 特效元素
+        const matrixRain = document.getElementById('matrixRain');
+        const starsEffect = document.getElementById('starsEffect');
+        const pulseEffect = document.getElementById('pulseEffect');
+        const neonEffect = document.getElementById('neonEffect');
+        
+        // 当前激活的特效
+        let activeEffect = null;
 
         // 发送消息
         sendButton.addEventListener('click', handleMessage);
@@ -605,7 +760,8 @@
 
         // 特效按钮
         effectButtons.forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
                 const effect = button.getAttribute('data-effect');
                 triggerEffect(effect);
             });
@@ -630,13 +786,13 @@
 
         function getAIResponse(input) {
             const responses = {
-                '霓虹': '🌈 激活霓虹特效！看看这些炫酷的霓虹灯文字！',
-                '矩阵': '💻 进入矩阵世界...数字雨启动！',
-                '脉冲': '⚡ 能量脉冲释放！感受赛博能量！',
-                '星空': '✨ 星空爆炸特效启动！漫天星辰为你闪耀！',
+                '霓虹': '🌈 激活霓虹特效！绚丽的色彩覆盖整个屏幕！',
+                '矩阵': '💻 进入矩阵世界...绿色代码雨覆盖聊天界面！',
+                '脉冲': '⚡ 能量脉冲释放！蓝色冲击波从中心扩散！',
+                '星空': '✨ 星空爆炸特效启动！星星和流星覆盖屏幕！',
                 '你好': '👋 你好！欢迎来到赛博空间！',
-                '帮助': '💡 输入"霓虹"、"矩阵"、"脉冲"或"星空"来触发炫酷特效！',
-                '默认': `🤖 "${input}" - 这个话题很赛博朋克！继续探索更多惊喜吧！`
+                '帮助': '💡 点击下方按钮或输入"霓虹"、"矩阵"、"脉冲"、"星空"来触发覆盖特效！',
+                '默认': `🤖 "${input}" - 这个话题很赛博朋克！(超级抽象了老铁)`
             };
             
             for (const [keyword, response] of Object.entries(responses)) {
@@ -661,137 +817,168 @@
         }
 
         function triggerEffect(effectType) {
+            // 显示特效通知
+            showEffectNotification(effectType);
+            
+            // 停止当前特效
+            if (activeEffect) {
+                stopEffect(activeEffect);
+            }
+            
+            // 启动新特效
+            activeEffect = effectType;
+            startEffect(effectType);
+            
+            // 5秒后自动停止特效
+            setTimeout(() => {
+                if (activeEffect === effectType) {
+                    stopEffect(effectType);
+                    activeEffect = null;
+                }
+            }, 5000);
+        }
+
+        function startEffect(effectType) {
             switch(effectType) {
                 case 'neon':
-                    // 霓虹灯文字效果
-                    document.body.style.setProperty('--glow-intensity', '1.5');
-                    setTimeout(() => {
-                        document.body.style.setProperty('--glow-intensity', '1');
-                    }, 3000);
+                    neonEffect.style.opacity = '1';
                     break;
                     
                 case 'matrix':
-                    // 矩阵数字雨效果
-                    particlesJS('particles-js', {
-                        particles: {
-                            number: { value: 200 },
-                            color: { value: "#00ff00" },
-                            shape: { type: "char", character: { value: ["0", "1"] } },
-                            opacity: { value: 0.8, random: true },
-                            size: { value: 14, random: true },
-                            line_linked: { enable: false },
-                            move: { 
-                                enable: true, 
-                                speed: 5, 
-                                direction: "bottom", 
-                                random: false, 
-                                out_mode: "out" 
-                            }
-                        }
-                    });
-                    
-                    setTimeout(() => {
-                        particlesJS('particles-js', {
-                            particles: {
-                                number: { value: 80 },
-                                color: { value: ["#0ff0fc", "#ff00ff", "#8a2be2"] },
-                                shape: { type: "circle" },
-                                opacity: { value: 0.5, random: true },
-                                size: { value: 3, random: true },
-                                line_linked: {
-                                    enable: true,
-                                    distance: 150,
-                                    color: "#0ff0fc",
-                                    opacity: 0.4,
-                                    width: 1
-                                },
-                                move: {
-                                    enable: true,
-                                    speed: 2,
-                                    direction: "none",
-                                    random: true,
-                                    out_mode: "out"
-                                }
-                            }
-                        });
-                    }, 5000);
+                    matrixRain.style.opacity = '1';
+                    createMatrixRain();
                     break;
                     
                 case 'pulse':
-                    // 能量脉冲效果
-                    const pulse = document.createElement('div');
-                    pulse.style.position = 'fixed';
-                    pulse.style.top = '50%';
-                    pulse.style.left = '50%';
-                    pulse.style.width = '10px';
-                    pulse.style.height = '10px';
-                    pulse.style.background = 'radial-gradient(circle, #0ff0fc, transparent)';
-                    pulse.style.borderRadius = '50%';
-                    pulse.style.transform = 'translate(-50%, -50%)';
-                    pulse.style.zIndex = '100';
-                    pulse.style.pointerEvents = 'none';
-                    document.body.appendChild(pulse);
-                    
-                    const animation = pulse.animate([
-                        { width: '10px', height: '10px', opacity: 1 },
-                        { width: '500px', height: '500px', opacity: 0 }
-                    ], {
-                        duration: 1500,
-                        easing: 'ease-out'
-                    });
-                    
-                    animation.onfinish = () => {
-                        document.body.removeChild(pulse);
-                    };
+                    pulseEffect.style.opacity = '1';
+                    createPulseRings();
                     break;
                     
                 case 'stars':
-                    // 星空爆炸效果
-                    particlesJS('particles-js', {
-                        particles: {
-                            number: { value: 300 },
-                            color: { value: ["#ffffff", "#0ff0fc", "#ff00ff"] },
-                            shape: { type: "circle" },
-                            opacity: { value: 0.8, random: true },
-                            size: { value: 2, random: true },
-                            line_linked: { enable: false },
-                            move: { 
-                                enable: true, 
-                                speed: 10, 
-                                direction: "none", 
-                                random: true, 
-                                out_mode: "out" 
-                            }
-                        }
-                    });
-                    
-                    setTimeout(() => {
-                        particlesJS('particles-js', {
-                            particles: {
-                                number: { value: 80 },
-                                color: { value: ["#0ff0fc", "#ff00ff", "#8a2be2"] },
-                                shape: { type: "circle" },
-                                opacity: { value: 0.5, random: true },
-                                size: { value: 3, random: true },
-                                line_linked: {
-                                    enable: true,
-                                    distance: 150,
-                                    color: "#0ff0fc",
-                                    opacity: 0.4,
-                                    width: 1
-                                },
-                                move: {
-                                    enable: true,
-                                    speed: 2,
-                                    direction: "none",
-                                    random: true,
-                                    out_mode: "out"
-                                }
-                            }
-                        });
-                    }, 3000);
+                    starsEffect.style.opacity = '1';
+                    createStars();
                     break;
             }
+        }
+
+        function stopEffect(effectType) {
+            switch(effectType) {
+                case 'neon':
+                    neonEffect.style.opacity = '0';
+                    break;
+                    
+                case 'matrix':
+                    matrixRain.style.opacity = '0';
+                    matrixRain.innerHTML = '';
+                    break;
+                    
+                case 'pulse':
+                    pulseEffect.style.opacity = '0';
+                    pulseEffect.innerHTML = '';
+                    break;
+                    
+                case 'stars':
+                    starsEffect.style.opacity = '0';
+                    starsEffect.innerHTML = '';
+                    break;
+            }
+        }
+
+        function createMatrixRain() {
+            const columns = Math.floor(window.innerWidth / 25);
+            
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = `${i * 25}px`;
+                column.style.animationDuration = `${Math.random() * 2 + 1}s`;
+                column.style.animationDelay = `${Math.random() * 1}s`;
+                
+                // 添加随机字符
+                let content = '';
+                const chars = '01010101010101010101アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                for (let j = 0; j < 25; j++) {
+                    content += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+                }
+                
+                column.innerHTML = content;
+                matrixRain.appendChild(column);
+            }
+        }
+
+        function createPulseRings() {
+            const ringCount = 5;
+            
+            for (let i = 0; i < ringCount; i++) {
+                const ring = document.createElement('div');
+                ring.className = 'pulse-ring';
+                ring.style.animationDelay = `${i * 0.3}s`;
+                ring.style.borderColor = i % 2 === 0 ? 'var(--neon-blue)' : 'var(--neon-pink)';
+                pulseEffect.appendChild(ring);
+            }
+        }
+
+        function createStars() {
+            const starCount = 80;
+            
+            // 创建静态星星
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.width = `${Math.random() * 4 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsEffect.appendChild(star);
+            }
+            
+            // 创建流星
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const shootingStar = document.createElement('div');
+                    shootingStar.className = 'shooting-star';
+                    shootingStar.style.top = `${Math.random() * 50}%`;
+                    shootingStar.style.left = `${Math.random() * 20}%`;
+                    starsEffect.appendChild(shootingStar);
+                    
+                    setTimeout(() => {
+                        if (starsEffect.contains(shootingStar)) {
+                            starsEffect.removeChild(shootingStar);
+                        }
+                    }, 3000);
+                }, i * 600);
+            }
+        }
+
+        function showEffectNotification(effectType) {
+            const effectNames = {
+                'neon': '霓虹特效',
+                'matrix': '矩阵雨',
+                'pulse': '能量脉冲',
+                'stars': '星空爆炸'
+            };
+            
+            const notification = document.createElement('div');
+            notification.className = 'effect-notification';
+            notification.textContent = `✨ ${effectNames[effectType]} 已激活 ✨`;
+            
+            document.body.appendChild(notification);
+            
+            // 显示通知
+            setTimeout(() => {
+                notification.style.opacity = '1';
+            }, 10);
+            
+            // 隐藏通知
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
         }
 
         function addMessage(text, sender) {
@@ -813,14 +1000,24 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // 添加一些初始消息
-        setTimeout(() => {
-            addMessage('💫 这个界面太酷了！怎么做到的？', '卫焱楠');
-            
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加一些初始消息
             setTimeout(() => {
-                addMessage('🚀 使用HTML5、CSS3和JavaScript创建的赛博朋克风格界面！粒子效果使用particles.js库实现。', 'bor');
-            }, 1000);
-        }, 2000);
+                addMessage('特效现在覆盖在聊天界面上了！好酷！', 'user');
+                
+                setTimeout(() => {
+                    addMessage('🚀 是的！试试点击特效按钮！', 'bot');
+                }, 1000);
+            }, 1500);
+        });
+
+        // 防止页面滚动
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
