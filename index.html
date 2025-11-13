@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>赛博朋克AI助手 - deepseek版</title>
+    <title>抖音直播礼物系统 - 山东脱单交流会版</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -116,7 +116,7 @@
                 inset 0 0 15px rgba(15, 240, 252, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(15, 240, 252, 0.3);
-            z-index: 20; /* 聊天层在特效层下面 */
+            z-index: 20;
             animation: container-appear 1s ease-out;
         }
         
@@ -427,6 +427,192 @@
             box-shadow: 0 0 15px var(--neon-blue);
         }
         
+        /* 礼物面板 */
+        .gift-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 20, 0.95);
+            border-top: 1px solid rgba(15, 240, 252, 0.3);
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 60;
+            backdrop-filter: blur(10px);
+            border-radius: 16px 16px 0 0;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .gift-panel.active {
+            transform: translateY(0);
+        }
+        
+        .gift-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(15, 240, 252, 0.3);
+        }
+        
+        .gift-panel-title {
+            font-size: 1.1rem;
+            color: var(--neon-blue);
+            font-weight: 600;
+        }
+        
+        .close-gift-panel {
+            background: none;
+            border: none;
+            color: var(--neon-pink);
+            font-size: 1.3rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gift-items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .gift-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 12px;
+            background: rgba(15, 240, 252, 0.1);
+            border: 1px solid rgba(15, 240, 252, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gift-item:active {
+            background: rgba(15, 240, 252, 0.2);
+            transform: scale(0.95);
+        }
+        
+        .gift-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .gift-name {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            margin-bottom: 5px;
+        }
+        
+        .gift-price {
+            font-size: 0.7rem;
+            color: var(--neon-yellow);
+            display: flex;
+            align-items: center;
+        }
+        
+        .coin-icon {
+            margin-right: 3px;
+        }
+        
+        /* 礼物按钮 */
+        .gift-button {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-yellow));
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+            z-index: 50;
+            transition: all 0.3s ease;
+        }
+        
+        .gift-button:active {
+            transform: scale(0.9);
+            box-shadow: 0 0 25px var(--neon-pink);
+        }
+        
+        /* 礼物特效容器 */
+        .gift-effects-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 70;
+            overflow: hidden;
+        }
+        
+        /* 礼物动画效果 */
+        .gift-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            opacity: 0;
+            animation: gift-fly 3s ease-out forwards;
+            z-index: 75;
+        }
+        
+        @keyframes gift-fly {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            40% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            60% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, calc(-50% - 100px)) scale(0.8);
+            }
+        }
+        
+        /* 礼物消息 */
+        .gift-message {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.3), rgba(255, 140, 0, 0.3));
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 8px 0;
+            font-size: 0.85rem;
+            text-align: center;
+            animation: gift-message-appear 0.5s ease-out;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        @keyframes gift-message-appear {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
         /* 特效按钮区域 */
         .effects-panel {
             display: flex;
@@ -460,7 +646,7 @@
             box-shadow: 0 0 8px var(--neon-blue);
         }
         
-        /* 特效容器 - 放在聊天界面上面 */
+        /* 特效容器 */
         .effects-container {
             position: fixed;
             top: 0;
@@ -468,163 +654,8 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 50; /* 特效层在聊天层上面 */
+            z-index: 50;
             overflow: hidden;
-        }
-        
-        /* 矩阵雨特效 */
-        .matrix-rain {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
-        }
-        
-        .matrix-column {
-            position: absolute;
-            top: -100%;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            text-shadow: 0 0 8px #0f0;
-            animation: matrix-fall linear infinite;
-            font-weight: bold;
-        }
-        
-        @keyframes matrix-fall {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
-        
-        /* 星空特效 */
-        .stars-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
-        }
-        
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            box-shadow: 0 0 8px white, 0 0 12px var(--neon-blue);
-            animation: twinkle 1.5s infinite alternate;
-        }
-        
-        .shooting-star {
-            position: absolute;
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, white, transparent);
-            box-shadow: 0 0 8px white;
-            animation: shoot 3s linear;
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-        
-        @keyframes shoot {
-            0% { 
-                transform: translateX(-100px) translateY(0) rotate(45deg);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            100% { 
-                transform: translateX(500px) translateY(200px) rotate(45deg);
-                opacity: 0;
-            }
-        }
-        
-        /* 脉冲特效 */
-        .pulse-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .pulse-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid var(--neon-blue);
-            box-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue);
-            animation: pulse-expand 2s ease-out;
-        }
-        
-        @keyframes pulse-expand {
-            0% { 
-                width: 10px; 
-                height: 10px; 
-                opacity: 1;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-            100% { 
-                width: 800px; 
-                height: 800px; 
-                opacity: 0;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-        
-        /* 霓虹特效 */
-        .neon-effect {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            pointer-events: none;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 0, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(15, 240, 252, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(139, 0, 255, 0.3) 0%, transparent 50%);
-            animation: neon-pulse 1.5s infinite alternate;
-        }
-        
-        @keyframes neon-pulse {
-            0% { opacity: 0.4; filter: hue-rotate(0deg); }
-            100% { opacity: 0.8; filter: hue-rotate(90deg); }
-        }
-        
-        /* 特效通知 */
-        .effect-notification {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--neon-blue);
-            padding: 12px 24px;
-            border-radius: 20px;
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 20px var(--neon-blue);
-            font-size: 1.1rem;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            pointer-events: none;
         }
         
         /* 响应式设计 */
@@ -641,6 +672,10 @@
             
             .message-content {
                 max-width: 85%;
+            }
+            
+            .gift-items {
+                grid-template-columns: repeat(3, 1fr);
             }
             
             .effects-panel {
@@ -661,6 +696,11 @@
             
             .cyber-messages {
                 max-height: 60vh;
+            }
+            
+            .gift-panel {
+                max-height: 70vh;
+                overflow-y: auto;
             }
         }
     </style>
@@ -683,10 +723,10 @@
         
         <!-- 标题区域 -->
         <div class="cyber-header">
-            <h1 class="cyber-title">🤖 赛博助手</h1>
+            <h1 class="cyber-title">🎁山东脱单交流会直播</h1>
             <div class="status-indicator">
                 <div class="pulse-dot"></div>
-                <span>在线</span>
+                <span>直播中</span>
             </div>
         </div>
         
@@ -696,12 +736,12 @@
                 <div class="message-avatar">AI</div>
                 <div class="message-content">
                     <div class="message-text">
-                        🚀 欢迎使用deepseek(卫焱楠特调)版赛博助手！
+                        🚀 欢迎来到山东脱单交流会直播间！
                         <br><br>
-                        💡 <strong>特效现在覆盖在聊天界面上：</strong>
-                        <br>• 点击下方按钮体验
-                        <br>• 或输入关键词触发
-                        <br>• 特效会显示在聊天内容上方
+                        🎁 <strong>礼物系统已激活：</strong>
+                        <br>• 点击右下角礼物按钮
+                        <br>• 选择礼物发送
+                        <br>• 观看酷炫礼物特效
                     </div>
                     <div class="message-time">刚刚</div>
                 </div>
@@ -710,12 +750,65 @@
         
         <!-- 输入区域 -->
         <div class="cyber-input-area">
-            <input type="text" class="cyber-input" id="userInput" placeholder="💬 输入消息...">
+            <input type="text" class="cyber-input" id="userInput" placeholder="💬 和主播聊天...">
             <button class="send-button" id="sendButton">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
                 </svg>
             </button>
+        </div>
+        
+        <!-- 礼物按钮 -->
+        <button class="gift-button" id="giftButton">🎁</button>
+        
+        <!-- 礼物面板 -->
+        <div class="gift-panel" id="giftPanel">
+            <div class="gift-panel-header">
+                <div class="gift-panel-title">选择礼物</div>
+                <button class="close-gift-panel" id="closeGiftPanel">✕</button>
+            </div>
+            <div class="gift-items">
+                <div class="gift-item" data-gift="heart" data-price="10">
+                    <div class="gift-icon">❤️</div>
+                    <div class="gift-name">爱心</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>10</div>
+                </div>
+                <div class="gift-item" data-gift="rocket" data-price="50">
+                    <div class="gift-icon">🚀</div>
+                    <div class="gift-name">火箭</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>50</div>
+                </div>
+                <div class="gift-item" data-gift="diamond" data-price="100">
+                    <div class="gift-icon">💎</div>
+                    <div class="gift-name">钻石</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>100</div>
+                </div>
+                <div class="gift-item" data-gift="crown" data-price="200">
+                    <div class="gift-icon">👑</div>
+                    <div class="gift-name">皇冠</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>200</div>
+                </div>
+                <div class="gift-item" data-gift="fire" data-price="30">
+                    <div class="gift-icon">🔥</div>
+                    <div class="gift-name">火焰</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>30</div>
+                </div>
+                <div class="gift-item" data-gift="star" data-price="20">
+                    <div class="gift-icon">⭐</div>
+                    <div class="gift-name">星星</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>20</div>
+                </div>
+                <div class="gift-item" data-gift="trophy" data-price="150">
+                    <div class="gift-icon">🏆</div>
+                    <div class="gift-name">奖杯</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>150</div>
+                </div>
+                <div class="gift-item" data-gift="coin" data-price="5">
+                    <div class="gift-icon">🪙</div>
+                    <div class="gift-name">金币</div>
+                    <div class="gift-price"><span class="coin-icon">🪙</span>5</div>
+                </div>
+            </div>
         </div>
         
         <!-- 特效按钮 -->
@@ -727,30 +820,41 @@
         </div>
     </div>
 
-    <!-- 特效容器 - 放在聊天界面上面 -->
-    <div class="effects-container" id="effectsContainer">
-        <div class="matrix-rain" id="matrixRain"></div>
-        <div class="stars-effect" id="starsEffect"></div>
-        <div class="pulse-effect" id="pulseEffect"></div>
-        <div class="neon-effect" id="neonEffect"></div>
-    </div>
+    <!-- 礼物特效容器 -->
+    <div class="gift-effects-container" id="giftEffectsContainer"></div>
+
+    <!-- 特效容器 -->
+    <div class="effects-container" id="effectsContainer"></div>
 
     <script>
         // DOM元素
         const sendButton = document.getElementById('sendButton');
         const userInput = document.getElementById('userInput');
         const chatMessages = document.getElementById('chatMessages');
+        const giftButton = document.getElementById('giftButton');
+        const giftPanel = document.getElementById('giftPanel');
+        const closeGiftPanel = document.getElementById('closeGiftPanel');
+        const giftItems = document.querySelectorAll('.gift-item');
+        const giftEffectsContainer = document.getElementById('giftEffectsContainer');
         const effectButtons = document.querySelectorAll('.effect-btn');
-        const effectsContainer = document.getElementById('effectsContainer');
         
-        // 特效元素
-        const matrixRain = document.getElementById('matrixRain');
-        const starsEffect = document.getElementById('starsEffect');
-        const pulseEffect = document.getElementById('pulseEffect');
-        const neonEffect = document.getElementById('neonEffect');
+        // 用户数据
+        const userData = {
+            coins: 1000,
+            username: '老铁'
+        };
         
-        // 当前激活的特效
-        let activeEffect = null;
+        // 礼物数据
+        const gifts = {
+            heart: { emoji: '❤️', name: '爱心', price: 10 },
+            rocket: { emoji: '🚀', name: '火箭', price: 50 },
+            diamond: { emoji: '💎', name: '钻石', price: 100 },
+            crown: { emoji: '👑', name: '皇冠', price: 200 },
+            fire: { emoji: '🔥', name: '火焰', price: 30 },
+            star: { emoji: '⭐', name: '星星', price: 20 },
+            trophy: { emoji: '🏆', name: '奖杯', price: 150 },
+            coin: { emoji: '🪙', name: '金币', price: 5 }
+        };
 
         // 发送消息
         sendButton.addEventListener('click', handleMessage);
@@ -758,12 +862,42 @@
             if (e.key === 'Enter') handleMessage();
         });
 
-        // 特效按钮
-        effectButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const effect = button.getAttribute('data-effect');
-                triggerEffect(effect);
+        // 礼物按钮
+        giftButton.addEventListener('click', () => {
+            giftPanel.classList.add('active');
+        });
+
+        // 关闭礼物面板 - 修复点击事件
+        closeGiftPanel.addEventListener('click', (e) => {
+            e.stopPropagation(); // 防止事件冒泡
+            giftPanel.classList.remove('active');
+        });
+
+        // 点击礼物面板外部关闭面板
+        document.addEventListener('click', (e) => {
+            if (!giftPanel.contains(e.target) && e.target !== giftButton) {
+                giftPanel.classList.remove('active');
+            }
+        });
+
+        // 选择礼物
+        giftItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                const giftType = item.getAttribute('data-gift');
+                const giftPrice = parseInt(item.getAttribute('data-price'));
+                
+                if (userData.coins >= giftPrice) {
+                    // 扣除金币
+                    userData.coins -= giftPrice;
+                    
+                    // 发送礼物
+                    sendGift(giftType);
+                    
+                    // 关闭礼物面板
+                    giftPanel.classList.remove('active');
+                } else {
+                    alert('金币不足！');
+                }
             });
         });
 
@@ -778,21 +912,15 @@
             setTimeout(() => {
                 const reply = getAIResponse(inputText);
                 addMessage(reply, 'bot');
-                
-                // 根据关键词触发特效
-                triggerEffects(inputText.toLowerCase());
             }, 800 + Math.random() * 1000);
         }
 
         function getAIResponse(input) {
             const responses = {
-                '霓虹': '🌈 激活霓虹特效！绚丽的色彩覆盖整个屏幕！',
-                '矩阵': '💻 进入矩阵世界...绿色代码雨覆盖聊天界面！',
-                '脉冲': '⚡ 能量脉冲释放！蓝色冲击波从中心扩散！',
-                '星空': '✨ 星空爆炸特效启动！星星和流星覆盖屏幕！',
-                '你好': '👋 你好！欢迎来到赛博空间！',
-                '帮助': '💡 点击下方按钮或输入"霓虹"、"矩阵"、"脉冲"、"星空"来触发覆盖特效！',
-                '默认': `🤖 "${input}" - 这个话题很赛博朋克！(超级抽象了老铁)`
+                '你好': '👋 你好！感谢来到我的直播间！',
+                '礼物': '🎁 点击右下角礼物按钮给我送礼物吧！',
+                '特效': '✨ 试试下方的特效按钮，或者送我礼物触发特效！',
+                '默认': `🤖 "${input}" - 感谢你的互动！继续支持我吧！`
             };
             
             for (const [keyword, response] of Object.entries(responses)) {
@@ -804,181 +932,177 @@
             return responses['默认'];
         }
 
-        function triggerEffects(keyword) {
-            if (keyword.includes('霓虹')) {
-                triggerEffect('neon');
-            } else if (keyword.includes('矩阵')) {
-                triggerEffect('matrix');
-            } else if (keyword.includes('脉冲')) {
-                triggerEffect('pulse');
-            } else if (keyword.includes('星空')) {
-                triggerEffect('stars');
-            }
-        }
-
-        function triggerEffect(effectType) {
-            // 显示特效通知
-            showEffectNotification(effectType);
+        function sendGift(giftType) {
+            const gift = gifts[giftType];
             
-            // 停止当前特效
-            if (activeEffect) {
-                stopEffect(activeEffect);
-            }
+            // 添加礼物消息
+            const giftMessage = document.createElement('div');
+            giftMessage.className = 'gift-message';
+            giftMessage.innerHTML = `
+                🎁 <strong>${userData.username}</strong> 送出了 ${gift.emoji} ${gift.name}！
+            `;
+            chatMessages.appendChild(giftMessage);
             
-            // 启动新特效
-            activeEffect = effectType;
-            startEffect(effectType);
+            // 播放礼物动画
+            playGiftAnimation(giftType);
             
-            // 5秒后自动停止特效
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // 模拟主播感谢
             setTimeout(() => {
-                if (activeEffect === effectType) {
-                    stopEffect(effectType);
-                    activeEffect = null;
+                const thanksMessages = [
+                    `感谢 ${userData.username} 送的${gift.name}！🎉`,
+                    `哇！${gift.emoji} 感谢 ${userData.username} 的礼物！`,
+                    `太棒了！${userData.username} 送出了${gift.name}！感谢支持！`
+                ];
+                const randomThanks = thanksMessages[Math.floor(Math.random() * thanksMessages.length)];
+                addMessage(randomThanks, 'bot');
+            }, 1500);
+        }
+
+        function playGiftAnimation(giftType) {
+            const gift = gifts[giftType];
+            const animation = document.createElement('div');
+            animation.className = 'gift-animation';
+            animation.innerHTML = gift.emoji;
+            animation.style.fontSize = getGiftSize(giftType);
+            
+            giftEffectsContainer.appendChild(animation);
+            
+            // 移除动画元素
+            setTimeout(() => {
+                if (giftEffectsContainer.contains(animation)) {
+                    giftEffectsContainer.removeChild(animation);
                 }
-            }, 5000);
-        }
-
-        function startEffect(effectType) {
-            switch(effectType) {
-                case 'neon':
-                    neonEffect.style.opacity = '1';
-                    break;
-                    
-                case 'matrix':
-                    matrixRain.style.opacity = '1';
-                    createMatrixRain();
-                    break;
-                    
-                case 'pulse':
-                    pulseEffect.style.opacity = '1';
-                    createPulseRings();
-                    break;
-                    
-                case 'stars':
-                    starsEffect.style.opacity = '1';
-                    createStars();
-                    break;
-            }
-        }
-
-        function stopEffect(effectType) {
-            switch(effectType) {
-                case 'neon':
-                    neonEffect.style.opacity = '0';
-                    break;
-                    
-                case 'matrix':
-                    matrixRain.style.opacity = '0';
-                    matrixRain.innerHTML = '';
-                    break;
-                    
-                case 'pulse':
-                    pulseEffect.style.opacity = '0';
-                    pulseEffect.innerHTML = '';
-                    break;
-                    
-                case 'stars':
-                    starsEffect.style.opacity = '0';
-                    starsEffect.innerHTML = '';
-                    break;
-            }
-        }
-
-        function createMatrixRain() {
-            const columns = Math.floor(window.innerWidth / 25);
+            }, 3000);
             
-            for (let i = 0; i < columns; i++) {
-                const column = document.createElement('div');
-                column.className = 'matrix-column';
-                column.style.left = `${i * 25}px`;
-                column.style.animationDuration = `${Math.random() * 2 + 1}s`;
-                column.style.animationDelay = `${Math.random() * 1}s`;
-                
-                // 添加随机字符
-                let content = '';
-                const chars = '01010101010101010101アイウエオカキクケコABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                for (let j = 0; j < 25; j++) {
-                    content += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
-                }
-                
-                column.innerHTML = content;
-                matrixRain.appendChild(column);
+            // 根据礼物类型播放额外特效
+            playSpecialEffect(giftType);
+        }
+
+        function getGiftSize(giftType) {
+            const sizes = {
+                'heart': '3rem',
+                'rocket': '4rem',
+                'diamond': '5rem',
+                'crown': '4rem',
+                'fire': '3.5rem',
+                'star': '3rem',
+                'trophy': '4rem',
+                'coin': '2.5rem'
+            };
+            return sizes[giftType] || '3rem';
+        }
+
+        function playSpecialEffect(giftType) {
+            // 根据礼物类型播放不同的特效
+            switch(giftType) {
+                case 'rocket':
+                    createRocketEffect();
+                    break;
+                case 'diamond':
+                    createDiamondEffect();
+                    break;
+                case 'crown':
+                    createCrownEffect();
+                    break;
+                case 'fire':
+                    createFireEffect();
+                    break;
             }
         }
 
-        function createPulseRings() {
-            const ringCount = 5;
-            
-            for (let i = 0; i < ringCount; i++) {
-                const ring = document.createElement('div');
-                ring.className = 'pulse-ring';
-                ring.style.animationDelay = `${i * 0.3}s`;
-                ring.style.borderColor = i % 2 === 0 ? 'var(--neon-blue)' : 'var(--neon-pink)';
-                pulseEffect.appendChild(ring);
-            }
-        }
-
-        function createStars() {
-            const starCount = 80;
-            
-            // 创建静态星星
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.width = `${Math.random() * 4 + 1}px`;
-                star.style.height = star.style.width;
-                star.style.animationDelay = `${Math.random() * 2}s`;
-                starsEffect.appendChild(star);
-            }
-            
-            // 创建流星
+        function createRocketEffect() {
+            // 创建多个火箭轨迹
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
-                    const shootingStar = document.createElement('div');
-                    shootingStar.className = 'shooting-star';
-                    shootingStar.style.top = `${Math.random() * 50}%`;
-                    shootingStar.style.left = `${Math.random() * 20}%`;
-                    starsEffect.appendChild(shootingStar);
+                    const trail = document.createElement('div');
+                    trail.className = 'gift-animation';
+                    trail.innerHTML = '🚀';
+                    trail.style.fontSize = '2rem';
+                    trail.style.left = `${20 + i * 15}%`;
+                    
+                    giftEffectsContainer.appendChild(trail);
                     
                     setTimeout(() => {
-                        if (starsEffect.contains(shootingStar)) {
-                            starsEffect.removeChild(shootingStar);
+                        if (giftEffectsContainer.contains(trail)) {
+                            giftEffectsContainer.removeChild(trail);
                         }
                     }, 3000);
-                }, i * 600);
+                }, i * 200);
             }
         }
 
-        function showEffectNotification(effectType) {
-            const effectNames = {
-                'neon': '霓虹特效',
-                'matrix': '矩阵雨',
-                'pulse': '能量脉冲',
-                'stars': '星空爆炸'
-            };
-            
-            const notification = document.createElement('div');
-            notification.className = 'effect-notification';
-            notification.textContent = `✨ ${effectNames[effectType]} 已激活 ✨`;
-            
-            document.body.appendChild(notification);
-            
-            // 显示通知
-            setTimeout(() => {
-                notification.style.opacity = '1';
-            }, 10);
-            
-            // 隐藏通知
-            setTimeout(() => {
-                notification.style.opacity = '0';
+        function createDiamondEffect() {
+            // 创建钻石闪烁效果
+            for (let i = 0; i < 8; i++) {
                 setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
-            }, 2000);
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'gift-animation';
+                    sparkle.innerHTML = '💎';
+                    sparkle.style.fontSize = '1.5rem';
+                    sparkle.style.left = `${10 + i * 10}%`;
+                    sparkle.style.top = `${20 + Math.random() * 60}%`;
+                    
+                    giftEffectsContainer.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (giftEffectsContainer.contains(sparkle)) {
+                            giftEffectsContainer.removeChild(sparkle);
+                        }
+                    }, 2000);
+                }, i * 150);
+            }
+        }
+
+        function createCrownEffect() {
+            // 创建皇冠旋转效果
+            const crown = document.createElement('div');
+            crown.className = 'gift-animation';
+            crown.innerHTML = '👑';
+            crown.style.fontSize = '5rem';
+            crown.style.animation = 'gift-fly 4s ease-out forwards, spin 2s linear infinite';
+            
+            // 添加旋转动画
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    0% { transform: translate(-50%, -50%) rotate(0deg); }
+                    100% { transform: translate(-50%, -50%) rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            giftEffectsContainer.appendChild(crown);
+            
+            setTimeout(() => {
+                if (giftEffectsContainer.contains(crown)) {
+                    giftEffectsContainer.removeChild(crown);
+                }
+            }, 4000);
+        }
+
+        function createFireEffect() {
+            // 创建火焰扩散效果
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const flame = document.createElement('div');
+                    flame.className = 'gift-animation';
+                    flame.innerHTML = '🔥';
+                    flame.style.fontSize = '2rem';
+                    flame.style.left = `${40 + (Math.random() - 0.5) * 40}%`;
+                    flame.style.top = `${40 + (Math.random() - 0.5) * 40}%`;
+                    
+                    giftEffectsContainer.appendChild(flame);
+                    
+                    setTimeout(() => {
+                        if (giftEffectsContainer.contains(flame)) {
+                            giftEffectsContainer.removeChild(flame);
+                        }
+                    }, 1500);
+                }, i * 100);
+            }
         }
 
         function addMessage(text, sender) {
@@ -989,7 +1113,7 @@
             const timeString = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
             
             messageDiv.innerHTML = `
-                <div class="message-avatar">${sender === 'bot' ? 'AI' : '你'}</div>
+                <div class="message-avatar">${sender === 'bot' ? '主播' : '你'}</div>
                 <div class="message-content">
                     <div class="message-text">${text}</div>
                     <div class="message-time">${timeString}</div>
@@ -1004,10 +1128,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 添加一些初始消息
             setTimeout(() => {
-                addMessage('特效现在覆盖在聊天界面上了！好酷！', 'user');
+                addMessage('这个直播间的礼物特效好酷！', 'user');
                 
                 setTimeout(() => {
-                    addMessage('🚀 是的！试试点击特效按钮！', 'bot');
+                    addMessage('🚀 谢谢！想找(男/女)朋友试试送我礼物看看特效！', 'bot');
                 }, 1000);
             }, 1500);
         });
